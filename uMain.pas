@@ -143,7 +143,7 @@ begin
  ZeroMemory(@ovr,Sizeof(TOVERLAPPED));
  ovr.hEvent:=CreateEvent(nil,True,False,nil);
  while not Terminated do Begin
-  if (not ReadFile(FComPort,Buffer,1024,frameSize,@ovr)) and (WaitForSingleObject(ovr.hEvent,100)=WAIT_OBJECT_0) then Begin
+  if (not ReadFile(FComPort,Buffer,1024,frameSize,@ovr)) and (WaitForSingleObject(ovr.hEvent,INFINITE)=WAIT_OBJECT_0) then Begin
    GetOverlappedResult(FComPort,ovr,frameSize,FALSE);
    if (frameSize>0) then Begin
     RingBuf.WriteData(Buffer,frameSize,true);
@@ -210,6 +210,7 @@ begin
  pktIndex:=0;
  while not Terminated do Begin
    Readed:=RingBuf.ReadData(Buffer,128,false);
+   if (Readed>0) then Begin
    CurrTicks:=GetTickCount();
    if (CurrTicks-lastPktTime)>300 then begin
      inPkt:=false;
@@ -247,6 +248,8 @@ begin
      pktIndex:=pktIndex mod 5;
     end;
    end;
+   end else
+    Sleep(50);
  end;
 end;
 
