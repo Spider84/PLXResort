@@ -1,0 +1,11 @@
+buffer.dmp
+capture.txt
+plx.log
+PLX.txt
+PLXResort.exe
+ringbuffer.~pas
+uMain.dcu
+uMain.ddp
+*.~ddp
+*.~dfm
+*.~pas
